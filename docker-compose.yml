@@ -1,0 +1,11 @@
+services:
+  sql-dev:
+    build:
+      context: .
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${SA_PASSWORD}
+      SQL_LOGIN: ${SQL_LOGIN}
+      SQL_PASSWORD: ${SQL_PASSWORD}
+    ports:
+      - "127.0.0.1:1433:1433"
