@@ -47,7 +47,7 @@ Uses localhost and TrustServerCertificate=True for simplicity. Avoid using in pr
 Security Disclaimer
 
 The container binds SQL Server to localhost only.
-
+Therefore, to login to the instance as user you need to download MSSQL extension in Visual Studio Code and login to localhost,1433 server.
 Port 1433 is not exposed to the internet.
 
 Use only in secure environments or with additional protection (e.g. VPN/WireGuard).
