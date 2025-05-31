@@ -1,7 +1,3 @@
-# sql-powershell-container
-This is repository for someone who would like to work on SQL DbaTools module in closed environment.  
-It allows you to create working SQL instance which makes it possible to work on SQL Management Studio installed on your computer and access instance with credentials set by yourself in .env file.
-
 SQL Server + PowerShell + dbatools Docker Container
 
 A ready-to-use development environment for automating SQL Server tasks using PowerShell 7 and dbatools.
