@@ -7,22 +7,20 @@ ENV ACCEPT_EULA=Y
 # Set root user
 USER root
 
+# Copy scripts and PowerShell profile
 COPY scripts/ /scripts/
 COPY Microsoft.PowerShell_profile.ps1 /scripts/Microsoft.PowerShell_profile.ps1
-RUN chmod +x /scripts/*.sh
 
-RUN /scripts/install-dependencies.sh
-RUN /scripts/install-pwsh.sh
-RUN /scripts/install-modules.sh
-RUN /scripts/setup-profile.sh
-RUN /scripts/install-sqltools.sh
+# Make all scripts executable and run them in fewer layers
+RUN chmod +x /scripts/*.sh && \
+    /scripts/install-dependencies.sh && \
+    /scripts/install-pwsh.sh && \
+    /scripts/install-modules.sh && \
+    /scripts/setup-profile.sh && \
+    /scripts/install-sqltools.sh
 
 # Create backup directory
 RUN mkdir -p /var/opt/mssql/backup
-
-# Copy PowerShell profile initializer
-COPY Microsoft.PowerShell_profile.ps1 /opt/microsoft/powershell/7/Microsoft.PowerShell_profile.ps1
-RUN chmod 644 /opt/microsoft/powershell/7/Microsoft.PowerShell_profile.ps1
 
 EXPOSE 1433
 
