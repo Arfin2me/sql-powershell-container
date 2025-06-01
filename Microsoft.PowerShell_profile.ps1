@@ -1,25 +1,23 @@
-# Add SQL tools to PATH
-$env:PATH += ':/opt/mssql-tools/bin'
+# PowerShell Profile - Auto-connect to SQL on startup
 
-# Ensure dbatools is installed and imported
-if (-not (Get-Module -ListAvailable -Name dbatools)) {
-    Install-Module dbatools -Scope AllUsers -Force
-}
-Import-Module dbatools -Force
+# Only run if all required variables are set
+if ($env:SQL_LOGIN -and $env:SQL_PASSWORD) {
+    Import-Module dbatools -Force
+    Import-Module SqlServer -Force
 
-# Get SQL credentials from environment variables
-$user = $env:SQL_LOGIN
-$pass = ConvertTo-SecureString $env:SQL_PASSWORD -AsPlainText -Force
-$cred = New-Object System.Management.Automation.PSCredential ($user, $pass)
+    $user = $env:SQL_LOGIN
+    $pass = ConvertTo-SecureString $env:SQL_PASSWORD -AsPlainText -Force
+    $cred = New-Object System.Management.Automation.PSCredential ($user, $pass)
 
-# Define connection string using login and password
-$global:SqlConnectionString = "Server=localhost;TrustServerCertificate=True;User ID=$user;Password=$env:SQL_PASSWORD;"
+    $global:SqlConnectionString = "Server=localhost;TrustServerCertificate=True;User ID=$user;Password=$env:SQL_PASSWORD;"
 
-# Attempt connection
-try {
-    $global:SqlInstance = Connect-DbaInstance -SqlCredential $cred -SqlInstance localhost
-    Write-Host "✔️ Connected to SQL Server: $($SqlInstance.Name)" -ForegroundColor Green
-} catch {
-    Write-Warning "⚠️ Could not connect to SQL Server: $($_.Exception.Message)"
+    try {
+        $global:SqlInstance = Connect-DbaInstance -SqlCredential $cred -SqlInstance localhost
+        Write-Host "✔️ Connected to SQL Server: $($SqlInstance.Name)" -ForegroundColor Green
+    } catch {
+        Write-Warning "⚠️ Could not connect to SQL Server: $($_.Exception.Message)"
+    }
+} else {
+    Write-Host "Environment variables for SQL_LOGIN and/or SQL_PASSWORD are missing."
 }
 
