@@ -7,8 +7,8 @@ ENV ACCEPT_EULA=Y
 # Set root user
 USER root
 
-# Copy and run modular installation scripts
 COPY scripts/ /scripts/
+COPY Microsoft.PowerShell_profile.ps1 /scripts/Microsoft.PowerShell_profile.ps1
 RUN chmod +x /scripts/*.sh
 
 RUN /scripts/install-dependencies.sh
