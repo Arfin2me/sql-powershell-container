@@ -42,6 +42,15 @@ New-DbaDatabase -SqlInstance $SqlInstance -Name 'MyDatabase'
 
 instead of hardcoding instance names.
 
+Use in your Powershell to import databases:
+
+docker cp ".\DATABASE.bak" sql-docker-pwsh-final-sql-dev-1:/var/opt/mssql/backup/MyDatabase.bak
+
+It will overwrite the file at /var/opt/mssql/backup/MyDatabase.bak if it already exists.
+
+Then inside of Container powershell:
+Restore-DbaDatabase -SqlInstance $SqlInstance -Path "/var/opt/mssql/backup/MyDatabase.bak" -UseDestinationDefaultDirectories -WithReplace
+
 Uses localhost and TrustServerCertificate=True for simplicity. Avoid using in production without additional security hardening.
 
 Security Disclaimer
