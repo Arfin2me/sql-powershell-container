@@ -46,6 +46,8 @@ Use in your Powershell to import databases:
 
 docker cp ".\DATABASE.bak" sql-docker-pwsh-final-sql-dev-1:/var/opt/mssql/backup/MyDatabase.bak
 
+".\DATABASE.bak" means that the PowerShell will choose the file from currently targeted location, make sure you are at the correct folder with .bak file.
+
 It will overwrite the file at /var/opt/mssql/backup/MyDatabase.bak if it already exists.
 
 Then inside of Container powershell:
