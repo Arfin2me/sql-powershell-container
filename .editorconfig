@@ -1,0 +1,25 @@
+# top-most EditorConfig file
+root = true
+
+# Unix-style shell and Docker files
+[*]
+end_of_line = lf
+charset = utf-8
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# PowerShell scripts
+[*.ps1]
+indent_style = space
+indent_size = 4
+
+# Shell scripts
+[*.sh]
+indent_style = space
+indent_size = 4
+
+# Markdown and YAML
+[*.{md,yml,yaml}]
+trim_trailing_whitespace = false  # Allow trailing whitespace in Markdown
