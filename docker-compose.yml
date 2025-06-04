@@ -2,10 +2,17 @@ services:
   sql-dev:
     build:
       context: .
+    volumes:
+      - ./mssql-certs:/var/opt/mssql/certs
+      - ./mssql-certs/mssql.conf:/var/opt/mssql/mssql.conf
+      - ./backups:/var/opt/mssql/backup
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: ${SA_PASSWORD}
       SQL_LOGIN: ${SQL_LOGIN}
       SQL_PASSWORD: ${SQL_PASSWORD}
+      MSSQL_TLS_PFX: /var/opt/mssql/certs/mssql.pfx
+      MSSQL_TLS_PFX_PASSWORD: ${PFX_PASSWORD}
     ports:
       - "127.0.0.1:1433:1433"
+    restart: unless-stopped
