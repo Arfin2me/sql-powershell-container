@@ -19,10 +19,22 @@ Clone this repository
 git clone https://github.com/Arfin2me/sql-powershell-container.git
 cd sql-powershell-container
 
-Configure your environmentCreate a .env file based on the .env.example:
+Configure your environment. Create a .env file based on the .env.example:
 
+SA_PASSWORD=CreateYourPassword1!
 SQL_LOGIN=sa
-SQL_PASSWORD=YourStrongPassword123
+SQL_PASSWORD=CreateYourPassword1!
+PFX_PASSWORD=YourActualPfxPasswordHere
+
+### Certificate Setup
+Run `./scripts/generate-mssql-selfsigned-cert.sh` or `pwsh ./generate-mssql-selfsigned-cert.ps1` to create TLS certificates.
+The generated `mssql.key`, `mssql.crt`, and `mssql.pfx` files must stay in `mssql-certs/` and the password should match `PFX_PASSWORD` in your `.env`.
+
+If you plan to take SQL Server backups, create an empty `backups` directory so the compose volume mount succeeds:
+
+```
+mkdir backups
+```
 
 Build and run the container
 
