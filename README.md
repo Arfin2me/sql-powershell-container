@@ -1,10 +1,3 @@
-SQL Server + PowerShell + dbatools Docker Container
-
-A ready-to-use development environment for automating SQL Server tasks using PowerShell 7 and dbatools.
-
-Features
-
-✅ SQL Server 2022 in a Docker container
 
 ✅ PowerShell 7 pre-installed
 
@@ -30,7 +23,7 @@ PFX_PASSWORD=YourActualPfxPasswordHere
 
 ### Certificate Setup
 Run `./scripts/generate-mssql-selfsigned-cert.sh` or `pwsh ./generate-mssql-selfsigned-cert.ps1` to create TLS certificates.
-The generated `mssql.key`, `mssql.crt`, and `mssql.pfx` files must stay in `mssql-certs/` and the password should match `PFX_PASSWORD` in your `.env`.
+Both scripts output `mssql.key`, `mssql.crt`, and `mssql.pfx` in the `mssql-certs/` folder, and the password must match `PFX_PASSWORD` in your `.env`.
 
 If you plan to take SQL Server backups, create an empty `backups` directory so the compose volume mount succeeds:
 
