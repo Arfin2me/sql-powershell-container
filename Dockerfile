@@ -23,7 +23,7 @@ COPY Microsoft.PowerShell_profile.ps1 /scripts/Microsoft.PowerShell_profile.ps1
 RUN mkdir -p /var/opt/mssql/certs \
     && chown -R 10001:0 /var/opt/mssql \
     && chmod 700 /var/opt/mssql/certs \
-    && chmod 600 /var/opt/mssql/certs/* \
+    && find /var/opt/mssql/certs -type f -exec chmod 600 {} + \
     && chmod +x /scripts/*.sh \
     && /scripts/install-dependencies.sh \
     && /scripts/install-pwsh.sh \
