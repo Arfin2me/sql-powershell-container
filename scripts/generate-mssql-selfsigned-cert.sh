@@ -34,5 +34,3 @@ openssl pkcs12 -export -out "$CERT_DIR/$PFX_NAME" -inkey "$CERT_DIR/$KEY_NAME" -
 
 # Clean up CSR
 rm "$CERT_DIR/mssql.csr"
-echo "    - $KEY_NAME: Private key"
-echo "    - $PFX_NAME: PKCS#12 bundle (password: $PFX_PASS)"
