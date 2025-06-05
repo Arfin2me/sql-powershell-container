@@ -1,3 +1,6 @@
++13
+-23
+
 FROM mcr.microsoft.com/mssql/server:2022-latest
 # Ensure we have root privileges for installing packages
  
@@ -15,13 +18,12 @@ RUN rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
 
 # -- 2. Copy certs, scripts, and PowerShell profile --
-COPY mssql-certs/ /var/opt/mssql/certs/
-COPY scripts/ /scripts/
-COPY Microsoft.PowerShell_profile.ps1 /scripts/Microsoft.PowerShell_profile.ps1
+COPY --chown=10001:0 mssql-certs/ /var/opt/mssql/certs/
+COPY --chown=10001:0 scripts/ /scripts/
+COPY --chown=10001:0 Microsoft.PowerShell_profile.ps1 /scripts/Microsoft.PowerShell_profile.ps1
 
 # -- 3. Set permissions, run install scripts, and create directories --
 RUN mkdir -p /var/opt/mssql/certs \
-    && chown -R 10001:0 /var/opt/mssql \
     && chmod 700 /var/opt/mssql/certs \
     && find /var/opt/mssql/certs -type f -exec chmod 600 {} + \
     && chmod +x /scripts/*.sh \
