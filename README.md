@@ -1,4 +1,4 @@
- # SQL Server + PowerShell + dbatools Docker Container
+# SQL Server + PowerShell + dbatools Docker Container
 
 A ready-to-use development environment for automating SQL Server tasks with PowerShell 7 and the [dbatools](https://dbatools.io/) module.
 
@@ -8,6 +8,7 @@ A ready-to-use development environment for automating SQL Server tasks with Powe
 - **PowerShell 7** pre-installed
 - **dbatools** and **SqlServer** PowerShell modules
 - Automatically connects to the SQL instance using credentials from `.env`
+- Connection object available as `$SqlInstance` for dbatools commands
 
 ## Setup & Usage
 
@@ -83,6 +84,14 @@ PFX_PASSWORD=<password-used-when-creating-mssql.pfx>
 Once the container is running you can connect to the SQL instance from your host
 using any SQL tool at `localhost,1433` with the login and password above.
 
+Inside the PowerShell session, the profile stores the live connection object in
+`$SqlInstance`. Use this variable with dbatools commands instead of typing the
+instance name each time, for example:
+
+```powershell
+Get-DbaDatabase -SqlInstance $SqlInstance
+```
+
 ## Windows users: installing WSL and OpenSSL
 
 The certificate scripts require `openssl`. On Windows the easiest way to get it is via the Windows Subsystem for Linux (WSL).
@@ -111,3 +120,5 @@ Alternatively, if you have PowerShell 7 and a native OpenSSL installation on Win
 ## Why certificates?
 
 SQL Server is configured in this image to use TLS for encrypted connections. The container looks for the certificate files at startup and refuses to run if they are missing or the password does not match. Using the provided scripts ensures the server has a self-signed certificate and that PowerShell can trust it when connecting.
+
+---
