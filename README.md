@@ -1,4 +1,4 @@
- SQL Server + PowerShell + dbatools Docker Container
+ # SQL Server + PowerShell + dbatools Docker Container
 
 A ready-to-use development environment for automating SQL Server tasks with PowerShell 7 and the [dbatools](https://dbatools.io/) module.
 
@@ -65,6 +65,23 @@ After the build completes you can enter PowerShell inside the running container:
 ```bash
 docker exec -it sql-dev pwsh
 ```
+
+### 6. Using the container
+
+The `.env` file provides credentials for both SQL Server and the initial
+PowerShell connection. Update the values to whatever login and password you
+prefer. The environment variables are consumed by `docker-compose` and by the
+PowerShell profile when it automatically connects:
+
+```
+SA_PASSWORD=<strong-password-for-sa>
+SQL_LOGIN=sa
+SQL_PASSWORD=<same-as-sa-or-other>
+PFX_PASSWORD=<password-used-when-creating-mssql.pfx>
+```
+
+Once the container is running you can connect to the SQL instance from your host
+using any SQL tool at `localhost,1433` with the login and password above.
 
 ## Windows users: installing WSL and OpenSSL
 
