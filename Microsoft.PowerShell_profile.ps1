@@ -2,11 +2,13 @@
 
 # Only run if all required variables are set
 if ($env:SQL_LOGIN -and $env:SQL_PASSWORD) {
-    if (-not (Get-Module -Name dbatools)) {
-        Import-Module dbatools
-    }
+    # Import modules only if they're not already loaded. Import SqlServer first
+    # so its assemblies are loaded before dbatools to avoid duplicate Add-Type
     if (-not (Get-Module -Name SqlServer)) {
         Import-Module SqlServer
+    }
+    if (-not (Get-Module -Name dbatools)) {
+        Import-Module dbatools
     }
 
     $user = $env:SQL_LOGIN
