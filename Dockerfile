@@ -33,6 +33,7 @@ RUN mkdir -p /var/opt/mssql/certs \
     && chown -R 10001:0 /var/opt/mssql/backup /home/mssql
 
 ENV HOME=/home/mssql
+ENV PATH="/opt/mssql-tools/bin:$PATH"
 
 # -- 6. Only NOW switch to non-root user --
 USER 10001
