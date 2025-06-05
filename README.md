@@ -36,7 +36,7 @@ This container expects three TLS files in the `mssql-certs/` directory: `mssql.k
 
 Run **one** of the provided scripts to create the files:
 
-- **Bash script** (requires `openssl`):
+**Bash script** (requires `openssl`):
   ```bash
   # Syntax: ./scripts/generate-mssql-selfsigned-cert.sh [CN] [PFX_PASSWORD]
   bash ./scripts/generate-mssql-selfsigned-cert.sh
