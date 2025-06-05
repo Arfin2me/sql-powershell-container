@@ -7,7 +7,9 @@ DAYS_VALID=730
 KEY_NAME="mssql.key"
 CRT_NAME="mssql.crt"
 PFX_NAME="mssql.pfx"
-PFX_PASS="${2:-ChangeMe123!}"
+# Use the provided password argument or fall back to the PFX_PASSWORD
+# environment variable. If neither is set, use a sane default.
+PFX_PASS="${2:-${PFX_PASSWORD:-ChangeMe123!}}"
 
 mkdir -p "$CERT_DIR"
 
@@ -32,8 +34,5 @@ openssl pkcs12 -export -out "$CERT_DIR/$PFX_NAME" -inkey "$CERT_DIR/$KEY_NAME" -
 
 # Clean up CSR
 rm "$CERT_DIR/mssql.csr"
-
-echo "[✓] Self-signed certificate and key created in '$CERT_DIR/'!"
-echo "    - $CRT_NAME: Certificate"
 echo "    - $KEY_NAME: Private key"
 echo "    - $PFX_NAME: PKCS#12 bundle (password: $PFX_PASS)"
