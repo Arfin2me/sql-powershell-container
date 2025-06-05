@@ -38,8 +38,14 @@ Run **one** of the provided scripts to create the files:
 
 - **Bash script** (requires `openssl`):
   ```bash
+  # Syntax: ./scripts/generate-mssql-selfsigned-cert.sh [CN] [PFX_PASSWORD]
   bash ./scripts/generate-mssql-selfsigned-cert.sh
   ```
+  To set a custom password when using the Bash script, pass it as the second argument. For example:
+  ```bash
+  bash ./scripts/generate-mssql-selfsigned-cert.sh localhost "MyPfxPassword!"
+  ```
+  
 - **PowerShell script** (also uses `openssl` to extract the key):
   ```powershell
   pwsh ./generate-mssql-selfsigned-cert.ps1
