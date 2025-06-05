@@ -2,6 +2,9 @@
 
 # Only run if all required variables are set
 if ($env:SQL_LOGIN -and $env:SQL_PASSWORD) {
+    if (-not $PSDefaultParameterValues.ContainsKey('Add-Type:ErrorAction')) {
+        $PSDefaultParameterValues['Add-Type:ErrorAction'] = 'SilentlyContinue'
+    }
     # Import modules only if they're not already loaded. Load dbatools first so
     # its version of Microsoft.Data.SqlClient is available before SqlServer
     # Temporarily silence import noise from SqlServer assemblies already loaded
