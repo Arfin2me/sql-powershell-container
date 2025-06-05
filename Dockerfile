@@ -14,33 +14,24 @@ RUN rm -rf /var/lib/apt/lists/* \
     && apt-get install -y nodejs \
     && apt-get clean \
 
-# -- 2. Copy certs and set permissions --
+# -- 2. Copy certs, scripts, and PowerShell profile --
 COPY mssql-certs/ /var/opt/mssql/certs/
-RUN chown -R 10001:0 /var/opt/mssql
-RUN chown -R 10001:0 /var/opt/mssql/certs && \
-    chmod 700 /var/opt/mssql/certs && \
-    chmod 600 /var/opt/mssql/certs/*
-
-# -- 3. Copy scripts and PowerShell profile --
 COPY scripts/ /scripts/
 COPY Microsoft.PowerShell_profile.ps1 /scripts/Microsoft.PowerShell_profile.ps1
 
-# -- 4. Make scripts executable and run install scripts --
-RUN chmod +x /scripts/*.sh \
+# -- 3. Set permissions, run install scripts, and create directories --
+RUN mkdir -p /var/opt/mssql/certs \
+    && chown -R 10001:0 /var/opt/mssql \
+    && chmod 700 /var/opt/mssql/certs \
+    && chmod 600 /var/opt/mssql/certs/* \
+    && chmod +x /scripts/*.sh \
     && /scripts/install-dependencies.sh \
     && /scripts/install-pwsh.sh \
     && /scripts/install-modules.sh \
     && /scripts/setup-profile.sh \
-    && /scripts/install-sqltools.sh
-
-# -- 5. Create backup directory --
-RUN mkdir -p /var/opt/mssql/backup \
-    && chown -R 10001:0 /var/opt/mssql/backup
-
-# -- 5b. Create a home directory for the mssql user so tools like VS Code can
-# write into it --
-RUN mkdir -p /home/mssql \
-    && chown -R 10001:0 /home/mssql
+    && /scripts/install-sqltools.sh \
+    && mkdir -p /var/opt/mssql/backup /home/mssql \
+    && chown -R 10001:0 /var/opt/mssql/backup /home/mssql
 
 ENV HOME=/home/mssql
 
