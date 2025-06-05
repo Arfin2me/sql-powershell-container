@@ -4,12 +4,16 @@
 if ($env:SQL_LOGIN -and $env:SQL_PASSWORD) {
     # Import modules only if they're not already loaded. Load dbatools first so
     # its version of Microsoft.Data.SqlClient is available before SqlServer
+    # Temporarily silence import noise from SqlServer assemblies already loaded
+    $oldPref = $ErrorActionPreference
+    $ErrorActionPreference = 'SilentlyContinue'
     if (-not (Get-Module -Name dbatools)) {
-        Import-Module dbatools -ErrorAction SilentlyContinue
+        Import-Module dbatools
     }
     if (-not (Get-Module -Name SqlServer)) {
-        Import-Module SqlServer -ErrorAction SilentlyContinue
+        Import-Module SqlServer
     }
+    $ErrorActionPreference = $oldPref
 
     $user = $env:SQL_LOGIN
     $pass = ConvertTo-SecureString $env:SQL_PASSWORD -AsPlainText -Force
