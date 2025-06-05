@@ -1,40 +1,96 @@
+ SQL Server + PowerShell + dbatools Docker Container
 
-✅ PowerShell 7 pre-installed
+A ready-to-use development environment for automating SQL Server tasks with PowerShell 7 and the [dbatools](https://dbatools.io/) module.
 
-✅ dbatools and SqlServer PowerShell modules
+## Features
 
-✅ Auto-connect to SQL instance using environment credentials
+- **SQL Server 2022** running in a Docker container
+- **PowerShell 7** pre-installed
+- **dbatools** and **SqlServer** PowerShell modules
+- Automatically connects to the SQL instance using credentials from `.env`
 
-Setup & Usage
+## Setup & Usage
 
-Clone this repository:
+### 1. Clone this repository
 
 ```bash
- git clone https://github.com/Arfin2me/sql-powershell-container.git
- cd sql-powershell-container
+git clone https://github.com/Arfin2me/sql-powershell-container.git
+cd sql-powershell-container
 ```
 
-Configure your environment. Create a .env file based on the .env.example:
+### 2. Configure environment variables
 
+Create a `.env` file based on `.env.example` and set passwords for the SQL login and the PFX certificate bundle:
+
+```
 SA_PASSWORD=CreateYourPassword1!
 SQL_LOGIN=sa
 SQL_PASSWORD=CreateYourPassword1!
 PFX_PASSWORD=YourActualPfxPasswordHere
+```
 
-### Certificate Setup
-Run `./scripts/generate-mssql-selfsigned-cert.sh` or `pwsh ./generate-mssql-selfsigned-cert.ps1` to create TLS certificates.
-Both scripts output `mssql.key`, `mssql.crt`, and `mssql.pfx` in the `mssql-certs/` folder, and the password must match `PFX_PASSWORD` in your `.env`.
+### 3. Generate TLS certificates
+
+This container expects three TLS files in the `mssql-certs/` directory: `mssql.key`, `mssql.crt`, and `mssql.pfx`. They enable encrypted connections to SQL Server and the server will not start without them.
+
+Run **one** of the provided scripts to create the files:
+
+- **Bash script** (requires `openssl`):
+  ```bash
+  bash ./scripts/generate-mssql-selfsigned-cert.sh
+  ```
+- **PowerShell script** (also uses `openssl` to extract the key):
+  ```powershell
+  pwsh ./generate-mssql-selfsigned-cert.ps1
+  ```
+
+The password you use when generating the `.pfx` must match `PFX_PASSWORD` in `.env`.
+
+### 4. Prepare the backups directory
 
 If you plan to take SQL Server backups, create an empty `backups` directory so the compose volume mount succeeds:
 
-```
+```bash
 mkdir backups
 ```
 
-Build and run the container
+### 5. Build and start the container
 
+```bash
 docker-compose up -d --build
+```
 
-Access the PowerShell shell inside the container
+After the build completes you can enter PowerShell inside the running container:
 
+```bash
 docker exec -it sql-dev pwsh
+```
+
+## Windows users: installing WSL and OpenSSL
+
+The certificate scripts require `openssl`. On Windows the easiest way to get it is via the Windows Subsystem for Linux (WSL).
+
+1. **Install WSL with Ubuntu**
+   - Open PowerShell **as Administrator** and run:
+     ```powershell
+     wsl --install -d Ubuntu
+     ```
+   - Restart when prompted. After reboot, launch "Ubuntu" from the Start menu to complete the installation.
+
+2. **Install OpenSSL inside WSL**
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y openssl
+   ```
+
+3. **Run the certificate script**
+   From the repository directory mounted inside WSL, run:
+   ```bash
+   bash ./scripts/generate-mssql-selfsigned-cert.sh
+   ```
+
+Alternatively, if you have PowerShell 7 and a native OpenSSL installation on Windows (via [winget](https://learn.microsoft.com/windows/package-manager/winget/) or [Chocolatey](https://chocolatey.org/)) you can run the PowerShell script instead.
+
+## Why certificates?
+
+SQL Server is configured in this image to use TLS for encrypted connections. The container looks for the certificate files at startup and refuses to run if they are missing or the password does not match. Using the provided scripts ensures the server has a self-signed certificate and that PowerShell can trust it when connecting.
