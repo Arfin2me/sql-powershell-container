@@ -1,6 +1,3 @@
-+13
--23
-
 FROM mcr.microsoft.com/mssql/server:2022-latest
 # Ensure we have root privileges for installing packages
  
@@ -15,7 +12,7 @@ RUN rm -rf /var/lib/apt/lists/* \
     && apt-get install -y ca-certificates curl  gnupg2 \
     && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && apt-get install -y nodejs \
-    && apt-get clean \
+    && apt-get clean
 
 # -- 2. Copy certs, scripts, and PowerShell profile --
 COPY --chown=10001:0 mssql-certs/ /var/opt/mssql/certs/
