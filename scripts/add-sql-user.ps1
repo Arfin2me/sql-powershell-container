@@ -4,7 +4,8 @@ param(
     [Parameter(Mandatory=$true)]
     [SecureString]$LoginPassword,
     [string]$Database = 'master',
-    [string[]]$Roles
+    [string[]]$Roles,
+    [switch]$EnablePasswordExpiration
 )
 
 # Ensure modules are loaded
@@ -32,10 +33,16 @@ try {
     [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
 }
 
+$policy = if ($EnablePasswordExpiration.IsPresent) {
+    'CHECK_POLICY=ON, CHECK_EXPIRATION=ON'
+} else {
+    'CHECK_POLICY=OFF, CHECK_EXPIRATION=OFF'
+}
+
 $createLogin = @"
 IF NOT EXISTS (SELECT 1 FROM sys.server_principals WHERE name = '$LoginName')
 BEGIN
-    CREATE LOGIN [$LoginName] WITH PASSWORD=N'$plainPassword', CHECK_POLICY=OFF;
+    CREATE LOGIN [$LoginName] WITH PASSWORD=N'$plainPassword', $policy;
 END
 "@
 Invoke-DbaQuery -SqlInstance $Global:SqlInstance -Query $createLogin
