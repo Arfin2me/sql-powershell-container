@@ -9,6 +9,7 @@ A ready-to-use development environment for automating SQL Server tasks with Powe
 - **dbatools** and **SqlServer** PowerShell modules
 - Automatically connects to the SQL instance using credentials from `.env`
 - Connection object available as `$SqlInstance` for dbatools commands
+- Uses PowerShell cmdlets (no `sqlcmd` binary) for running queries
 
 ## Setup & Usage
 
