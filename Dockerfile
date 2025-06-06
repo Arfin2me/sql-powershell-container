@@ -6,12 +6,10 @@ USER root
 ENV DEBIAN_FRONTEND=noninteractive
 ENV ACCEPT_EULA=Y
 
-# -- 1. Install system dependencies first (curl, gnupg2, nodejs) --
+# -- 1. Install system dependencies first (curl, gnupg2) --
 RUN rm -rf /var/lib/apt/lists/* \
     && apt-get update \
-    && apt-get install -y ca-certificates curl  gnupg2 \
-    && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-    && apt-get install -y nodejs \
+    && apt-get install -y ca-certificates curl gnupg2 \
     && apt-get clean
 
 # -- 2. Copy certs, scripts, and PowerShell profile --
