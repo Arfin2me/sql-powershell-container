@@ -11,6 +11,7 @@ apt-get install -y \
     software-properties-common \
     unixodbc-dev \
     wget \
-    ca-certificates && \
+    ca-certificates \
+    iptables && \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
