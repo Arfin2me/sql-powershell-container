@@ -31,9 +31,9 @@ RUN mkdir -p /var/opt/mssql/certs \
 
 ENV HOME=/home/mssql
 
-# -- 6. Only NOW switch to non-root user --
-USER 10001
+# -- 6. Start as root to allow firewall configuration --
+USER root
 
 EXPOSE 1433
 
-CMD ["/opt/mssql/bin/sqlservr"]
+CMD ["/scripts/start-sql.sh"]
