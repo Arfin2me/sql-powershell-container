@@ -86,10 +86,11 @@ SA_PASSWORD=<strong-password-for-sa>
 SQL_LOGIN=sa
 SQL_PASSWORD=<same-as-sa-or-other>
 PFX_PASSWORD=<password-used-when-creating-mssql.pfx>
+HOST_PORT=1433
 ```
 
 Once the container is running you can connect to the SQL instance from your host
-using any SQL tool at `localhost,1433` with the login and password above.
+using any SQL tool at `localhost,$HOST_PORT` (defaults to `localhost,1433`) with the login and password above.
 
 Inside the PowerShell session, the profile stores the live connection object in
 `$SqlInstance`. Use this variable with dbatools commands instead of typing the

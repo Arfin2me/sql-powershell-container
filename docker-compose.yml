@@ -14,5 +14,5 @@ services:
       MSSQL_TLS_PFX: /var/opt/mssql/certs/mssql.pfx
       MSSQL_TLS_PFX_PASSWORD: ${PFX_PASSWORD}
     ports:
-      - "127.0.0.1:1433:1433"
+          - "127.0.0.1:${HOST_PORT:-1433}:1433"
     restart: unless-stopped
