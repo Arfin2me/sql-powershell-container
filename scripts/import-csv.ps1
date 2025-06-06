@@ -6,14 +6,21 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$Table,
     [string]$Schema = 'dbo',
-    [switch]$Truncate
+    [switch]$Truncate,
+    [switch]$AutoCreate
 )
+
+# Warn if the Flat_Files directory is missing
+$flatDir = '/var/opt/mssql/backup/Flat_Files'
+if (-not (Test-Path $flatDir)) {
+    Write-Warning "Directory '$flatDir' not found. Create it on the host with 'mkdir -p backups/Flat_Files' to make CSV files available."    
+}
 
 if (-not (Test-Path $CsvFile)) {
     $file = Split-Path $CsvFile -Leaf
     $searchPaths = @(
         Join-Path -Path '/var/opt/mssql/backup' -ChildPath $file
-        Join-Path -Path '/var/opt/mssql/backup/Flat_Files' -ChildPath $file
+        Join-Path -Path $flatDir -ChildPath $file
     )
     foreach ($path in $searchPaths) {
         if (Test-Path $path) {
@@ -44,5 +51,18 @@ if (-not $Global:SqlInstance) {
     $Global:SqlInstance = Connect-DbaInstance -SqlCredential $cred -SqlInstance localhost -TrustServerCertificate
 }
 
-Import-DbaCsv -SqlInstance $Global:SqlInstance -Database $Database -Table $Table -Schema $Schema -Path $CsvFile -Truncate:$Truncate.IsPresent
+$importParams = @{
+    SqlInstance = $Global:SqlInstance
+    Database    = $Database
+    Table       = $Table
+    Schema      = $Schema
+    Path        = $CsvFile
+    Truncate    = $Truncate.IsPresent
+    ErrorAction = 'Stop'
+}
+if ($AutoCreate.IsPresent) {
+    $importParams.AutoCreateTable = $true
+}
+
+Import-DbaCsv @importParams
 Write-Host "[✓] Imported $CsvFile into $Database.$Schema.$Table" -ForegroundColor Green
