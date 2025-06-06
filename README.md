@@ -105,7 +105,7 @@ Get-DbaDatabase -SqlInstance $SqlInstance
 1. Place your `.bak` file in the `backups/` folder so the container can access it at `/var/opt/mssql/backup`.
 2. Open a PowerShell session inside the container:
    ```bash
-   docker exec -it sql-powershell-container-sql-dev-1 pwsh
+  docker exec -it sql-dev pwsh
    ```
 3. Restore the backup with the helper script:
    ```powershell
