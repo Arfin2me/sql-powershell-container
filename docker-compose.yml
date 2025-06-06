@@ -14,6 +14,9 @@ services:
       SQL_PASSWORD: ${SQL_PASSWORD}
       MSSQL_TLS_PFX: /var/opt/mssql/certs/mssql.pfx
       MSSQL_TLS_PFX_PASSWORD: ${PFX_PASSWORD}
+      ALLOWED_IPS: ${ALLOWED_IPS}
     ports:
-          - "127.0.0.1:${HOST_PORT:-1433}:1433"
+          - "${HOST_PORT:-1433}:1433"
+    cap_add:
+          - NET_ADMIN
     restart: unless-stopped
