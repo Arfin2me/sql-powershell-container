@@ -58,10 +58,10 @@ The password you use when generating the `.pfx` must match `PFX_PASSWORD` in `.e
 
 ### 4. Prepare the backups directory
 
-If you plan to take SQL Server backups, create an empty `backups` directory so the compose volume mount succeeds:
+If you plan to take SQL Server backups, create an empty `backups` directory so the compose volume mount succeeds. The CSV import helper looks for a `Flat_Files` subfolder under `backups`, so create that too. The CSV import script will warn if this folder doesn't exist:
 
 ```bash
-mkdir backups
+mkdir -p backups/Flat_Files
 ```
 
 ### 5. Build and start the container
