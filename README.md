@@ -129,7 +129,7 @@ This uses dbatools and the credentials from the environment to perform the resto
    ```powershell
    /scripts/import-csv.ps1 -CsvFile /var/opt/mssql/backup/Flat_Files/YourData.csv -Database MyDb -Table MyTable
    ```
-   Add `-Truncate` to clear the table before importing if needed.
+   Add `-Truncate` to clear the table before importing if needed. Include `-AutoCreate` to create the table if it doesn't already exist.
    
 ### Enabling SQL Server Agent
 
