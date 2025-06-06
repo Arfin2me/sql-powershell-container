@@ -28,7 +28,6 @@ RUN mkdir -p /var/opt/mssql/certs \
     && /scripts/install-pwsh.sh \
     && /scripts/install-modules.sh \
     && /scripts/setup-profile.sh \
-    && /scripts/install-sqltools.sh \
     && mkdir -p /var/opt/mssql/backup /home/mssql \
     && chown -R 10001:0 /var/opt/mssql/backup /home/mssql
 
