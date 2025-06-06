@@ -100,6 +100,19 @@ instance name each time, for example:
 Get-DbaDatabase -SqlInstance $SqlInstance
 ```
 
+### Importing a database backup
+
+1. Place your `.bak` file in the `backups/` folder so the container can access it at `/var/opt/mssql/backup`.
+2. Open a PowerShell session inside the container:
+   ```bash
+   docker exec -it sql-powershell-container-sql-dev-1 pwsh
+   ```
+3. Restore the backup with the helper script:
+   ```powershell
+   /scripts/import-database.ps1 -BackupFile /var/opt/mssql/backup/YourDatabase.bak -WithReplace
+   ```
+   This uses dbatools and the credentials from the environment to perform the restore.
+
 ## Windows users: installing WSL and OpenSSL
 
 The certificate scripts require `openssl`. On Windows the easiest way to get it is via the Windows Subsystem for Linux (WSL).
