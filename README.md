@@ -149,6 +149,9 @@ Create additional logins from within the container using the helper script:
 
 The `-Roles` parameter accepts one or more database roles to grant after the user is created.
 
+Add `-EnablePasswordExpiration` to enforce the SQL Server password expiration policy for the new login. Omit the switch if the password should never expire.
+
+
 # Windows users: installing WSL and OpenSSL
 
 The certificate scripts require `openssl`. On Windows the easiest way to get it is via the Windows Subsystem for Linux (WSL).
