@@ -87,10 +87,13 @@ SQL_LOGIN=sa
 SQL_PASSWORD=<same-as-sa-or-other>
 PFX_PASSWORD=<password-used-when-creating-mssql.pfx>
 HOST_PORT=1433
+ALLOWED_IPS=192.168.1.10,192.168.1.20  # optional
 ```
 
 Once the container is running you can connect to the SQL instance from your host
-using any SQL tool at `localhost,$HOST_PORT` (defaults to `localhost,1433`) with the login and password above.
+using any SQL tool at `localhost,$HOST_PORT` (defaults to `localhost,1433`).
+Remote machines should use the host's IP address instead of `localhost`.
+When `ALLOWED_IPS` is specified, only those addresses will be able to connect.
 
 Inside the PowerShell session, the profile stores the live connection object in
 `$SqlInstance`. Use this variable with dbatools commands instead of typing the
@@ -104,8 +107,8 @@ Get-DbaDatabase -SqlInstance $SqlInstance
 
 1. Place your `.bak` file in the `backups/` folder so the container can access it at `/var/opt/mssql/backup`.
 2. Open a PowerShell session inside the container:
-   ```bash
-  docker exec -it sql-dev pwsh
+   ```
+   bash docker exec -it sql-dev pwsh
    ```
 3. Restore the backup with the helper script:
    ```powershell
