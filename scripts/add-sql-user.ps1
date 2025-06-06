@@ -2,7 +2,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$LoginName,
     [Parameter(Mandatory=$true)]
-    [string]$LoginPassword,
+    [SecureString]$LoginPassword,
     [string]$Database = 'master',
     [string[]]$Roles
 )
@@ -25,10 +25,17 @@ if (-not $Global:SqlInstance) {
     $Global:SqlInstance = Connect-DbaInstance -SqlCredential $cred -SqlInstance localhost -TrustServerCertificate
 }
 
+$bstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($LoginPassword)
+try {
+    $plainPassword = [Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+} finally {
+    [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
+}
+
 $createLogin = @"
 IF NOT EXISTS (SELECT 1 FROM sys.server_principals WHERE name = '$LoginName')
 BEGIN
-    CREATE LOGIN [$LoginName] WITH PASSWORD=N'$LoginPassword', CHECK_POLICY=OFF;
+    CREATE LOGIN [$LoginName] WITH PASSWORD=N'$plainPassword', CHECK_POLICY=OFF;
 END
 "@
 Invoke-DbaQuery -SqlInstance $Global:SqlInstance -Query $createLogin
