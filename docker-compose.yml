@@ -1,5 +1,6 @@
 services:
   sql-dev:
+    container_name: sql-dev
     build:
       context: .
     volumes:
