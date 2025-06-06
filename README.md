@@ -10,7 +10,9 @@ A ready-to-use development environment for automating SQL Server tasks with Powe
 - Automatically connects to the SQL instance using credentials from `.env`
 - Connection object available as `$SqlInstance` for dbatools commands
 - Uses PowerShell cmdlets (no `sqlcmd` binary) for running queries
-
+- Example `connect-success.sql` script demonstrates using the CONNECT statement
+  to establish a session
+  
 ## Setup & Usage
 
 ### 1. Clone this repository
