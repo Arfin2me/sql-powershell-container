@@ -10,7 +10,20 @@ param(
 )
 
 if (-not (Test-Path $CsvFile)) {
-    throw "CSV file '$CsvFile' not found."
+    $file = Split-Path $CsvFile -Leaf
+    $searchPaths = @(
+        Join-Path -Path '/var/opt/mssql/backup' -ChildPath $file
+        Join-Path -Path '/var/opt/mssql/backup/Flat_Files' -ChildPath $file
+    )
+    foreach ($path in $searchPaths) {
+        if (Test-Path $path) {
+            $CsvFile = $path
+            break
+        }
+    }
+    if (-not (Test-Path $CsvFile)) {
+        throw "CSV file '$CsvFile' not found."
+    }
 }
 
 # Ensure modules are loaded
