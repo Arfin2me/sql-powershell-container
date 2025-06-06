@@ -144,7 +144,7 @@ To run SQL Agent jobs, enable Agent XPs with:
 Create additional logins from within the container using the helper script:
 
 ```powershell
-/scripts/add-sql-user.ps1 -LoginName newuser -LoginPassword P@ssword123 -Database MyDb -Roles db_datareader
+/scripts/add-sql-user.ps1 -LoginName newuser -LoginPassword (Read-Host "Enter password" -AsSecureString) -Database MyDb -Roles db_datareader
 ```
 
 The `-Roles` parameter accepts one or more database roles to grant after the user is created.
