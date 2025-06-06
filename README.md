@@ -115,8 +115,22 @@ Get-DbaDatabase -SqlInstance $SqlInstance
 3. Restore the backup with the helper script:
    ```powershell
    /scripts/import-database.ps1 -BackupFile /var/opt/mssql/backup/YourDatabase.bak -WithReplace
+
+This uses dbatools and the credentials from the environment to perform the restore.
+
+### Importing a CSV file
+
+1. Place the CSV file where the container can access it (e.g. in a mounted directory).
+2. Open a PowerShell session inside the container:
    ```
-   This uses dbatools and the credentials from the environment to perform the restore.
+   bash docker exec -it sql-dev pwsh
+   ```
+3. Import the data with the helper script:
+   ```powershell
+   /scripts/import-csv.ps1 -CsvFile /path/to/data.csv -Database MyDb -Table MyTable
+   ```
+   Add `-Truncate` to clear the table before importing if needed.
+   
 ### Enabling SQL Server Agent
 
 To run SQL Agent jobs, enable Agent XPs with:
