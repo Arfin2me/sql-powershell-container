@@ -117,6 +117,13 @@ Get-DbaDatabase -SqlInstance $SqlInstance
    /scripts/import-database.ps1 -BackupFile /var/opt/mssql/backup/YourDatabase.bak -WithReplace
    ```
    This uses dbatools and the credentials from the environment to perform the restore.
+### Enabling SQL Server Agent
+
+To run SQL Agent jobs, enable Agent XPs with:
+
+```powershell
+/scripts/enable-agent-xps.ps1
+```
 
 ## Windows users: installing WSL and OpenSSL
 
