@@ -6,10 +6,6 @@ README.md
 LICENSE
 AGENTS.md
 
-# Node modules or caches (if added later)
-node_modules
-npm-debug.log
-
 # tests and backups
 backups
 mssql-certs/*.csr
