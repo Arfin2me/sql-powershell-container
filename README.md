@@ -10,8 +10,6 @@ A ready-to-use development environment for automating SQL Server tasks with Powe
 - Automatically connects to the SQL instance using credentials from `.env`
 - Connection object available as `$SqlInstance` for dbatools commands
 - Uses PowerShell cmdlets (no `sqlcmd` binary) for running queries
-- Example `connect-success.sql` script demonstrates using the CONNECT statement
-  to establish a session
   
 ## Setup & Usage
 
@@ -138,19 +136,6 @@ To run SQL Agent jobs, enable Agent XPs with:
 ```powershell
 /scripts/enable-agent-xps.ps1
 ```
-
-### Adding SQL users
-
-Create additional logins from within the container using the helper script:
-
-```powershell
-/scripts/add-sql-user.ps1 -LoginName newuser -LoginPassword (Read-Host "Enter password" -AsSecureString) -Database MyDb -Roles db_datareader
-```
-
-The `-Roles` parameter accepts one or more database roles to grant after the user is created.
-
-Add `-EnablePasswordExpiration` to enforce the SQL Server password expiration policy for the new login. Omit the switch if the password should never expire.
-
 # Windows users: installing WSL and OpenSSL
 
 The certificate scripts require `openssl`. On Windows the easiest way to get it is via the Windows Subsystem for Linux (WSL).
